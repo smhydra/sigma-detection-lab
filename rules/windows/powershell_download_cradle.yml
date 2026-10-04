@@ -1,0 +1,21 @@
+title: PowerShell Download Cradle
+id: ceb67e8e-058e-44ae-a019-4be28768ec62
+status: experimental
+description: Detects PowerShell command lines containing common web-download and execution patterns.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - 'DownloadString('
+            - 'DownloadFile('
+            - 'Invoke-WebRequest'
+            - 'iwr '
+    condition: selection
+falsepositives:
+    - Administrators and deployment tools may download scripts. Validate destination, parent process, and script content.
+level: medium

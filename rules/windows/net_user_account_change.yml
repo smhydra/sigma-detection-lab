@@ -1,0 +1,21 @@
+title: Net.exe User or Group Administration
+id: 747a8eab-e0e8-485f-ac3e-8c33391922be
+status: experimental
+description: Detects net.exe commands that create users or modify local group membership.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\net.exe'
+            - '\net1.exe'
+        CommandLine|contains:
+            - ' user '
+            - ' localgroup '
+    condition: selection
+falsepositives:
+    - Administrative provisioning is common. Validate target account, group, source host, and approved change.
+level: medium

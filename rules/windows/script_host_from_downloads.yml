@@ -1,0 +1,19 @@
+title: Windows Script Host Executed from Downloads
+id: 0460870e-c5b7-486f-b70b-ad0ab06eb459
+status: experimental
+description: Detects wscript or cscript launching a script from a Downloads directory.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\wscript.exe'
+            - '\cscript.exe'
+        CommandLine|contains: '\Downloads\'
+    condition: selection
+falsepositives:
+    - User-driven scripts may be expected. Inspect script extension, origin, signer, and parent process.
+level: medium

@@ -1,0 +1,20 @@
+title: Bitsadmin Transfer Command
+id: 7ebf0803-85d9-4b4b-9049-0344acfa9be8
+status: experimental
+description: Detects bitsadmin command lines that create or resume BITS transfers.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\bitsadmin.exe'
+        CommandLine|contains:
+            - '/transfer'
+            - '/addfile'
+            - '/resume'
+    condition: selection
+falsepositives:
+    - Software distribution may use BITS. Correlate job name, remote URL, destination, and initiating account.
+level: medium

@@ -1,0 +1,20 @@
+title: Registry Run-Key Modification via Reg.exe
+id: f004d344-1cbb-4c24-bb68-bef01635501b
+status: experimental
+description: Detects reg.exe commands adding values beneath common Run or RunOnce persistence keys.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\reg.exe'
+        CommandLine|contains:
+            - ' add '
+            - '\CurrentVersion\Run'
+            - '\CurrentVersion\RunOnce'
+    condition: selection
+falsepositives:
+    - Software installers often add startup entries. Review value data, signer, user hive, and associated file.
+level: medium

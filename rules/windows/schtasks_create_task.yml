@@ -1,0 +1,19 @@
+title: Scheduled Task Creation via Schtasks
+id: 3091e8cf-7de3-4fa6-8b7a-26a167f798c3
+status: experimental
+description: Detects schtasks.exe commands that create or change scheduled tasks.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains:
+            - '/create'
+            - '/change'
+    condition: selection
+falsepositives:
+    - IT automation commonly manages scheduled tasks. Review task action, trigger, principal, and change ticket.
+level: medium

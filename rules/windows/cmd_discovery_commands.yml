@@ -1,0 +1,22 @@
+title: Command Prompt Host and Network Discovery
+id: dfadba78-3484-4141-a1cc-80c6a88d20c7
+status: experimental
+description: Detects cmd.exe executing common host or network discovery commands.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains:
+            - 'whoami'
+            - 'ipconfig'
+            - 'systeminfo'
+            - 'net user'
+            - 'net localgroup'
+    condition: selection
+falsepositives:
+    - These commands are common in IT support. Tune by account, host role, command sequence, and parent process.
+level: low

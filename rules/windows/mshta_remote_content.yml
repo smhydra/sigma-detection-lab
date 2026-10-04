@@ -1,0 +1,21 @@
+title: MSHTA Remote Content Execution
+id: 636955f8-41b1-487b-a508-2bd7edbfb54a
+status: experimental
+description: Detects mshta.exe launched with a URL or scriptlet-related command line.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\mshta.exe'
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - 'javascript:'
+            - 'vbscript:'
+    condition: selection
+falsepositives:
+    - Legitimate intranet applications may use HTA. Validate URL reputation, signer, parent process, and user context.
+level: high

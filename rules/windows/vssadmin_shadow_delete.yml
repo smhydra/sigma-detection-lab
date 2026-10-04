@@ -1,0 +1,17 @@
+title: Volume Shadow Copy Deletion
+id: fed30eb1-b431-4079-ba74-0cd9a5b657a8
+status: experimental
+description: Detects vssadmin commands attempting to delete shadow copies.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\vssadmin.exe'
+        CommandLine|contains: 'delete shadows'
+    condition: selection
+falsepositives:
+    - Backup maintenance may remove snapshots. Investigate urgency, user, parent process, and backup health.
+level: high

@@ -1,0 +1,20 @@
+title: Rundll32 Loading DLL from User-Writable Location
+id: 07b77525-9687-4389-b13d-323d3a82ff7f
+status: experimental
+description: Detects rundll32 command lines referencing DLLs in common user-writable directories.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        CommandLine|contains:
+            - '\AppData\Local\Temp\'
+            - '\Users\Public\'
+            - '\Downloads\'
+    condition: selection
+falsepositives:
+    - Some legitimate installers use temporary directories. Confirm the DLL path, signature, hash, and process ancestry.
+level: high

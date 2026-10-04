@@ -1,0 +1,19 @@
+title: PowerShell Execution Policy Bypass
+id: 83981bb0-3fae-432e-96cf-ceabff2ecaa6
+status: experimental
+description: Detects PowerShell started with an execution-policy bypass option.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - '-ExecutionPolicy Bypass'
+            - '-ep bypass'
+    condition: selection
+falsepositives:
+    - Execution-policy bypass is not proof of malicious activity; correlate with script content and initiating process.
+level: medium

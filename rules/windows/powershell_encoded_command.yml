@@ -1,0 +1,20 @@
+title: PowerShell Encoded Command Execution
+id: 0d68bd40-fb24-4aca-abf0-2b7584be5531
+status: experimental
+description: Detects PowerShell launched with an encoded command argument, which may be used to conceal script content.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - ' -enc '
+            - ' -encodedcommand '
+            - ' -e '
+    condition: selection
+falsepositives:
+    - Encoded commands are also used by legitimate administration and software deployment. Review parent process, user, and decoded content.
+level: high

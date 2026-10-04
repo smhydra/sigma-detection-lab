@@ -1,0 +1,25 @@
+title: Office Application Spawning a Command Shell
+id: f87c6340-a8f3-47a1-aabb-8b18e555dd1d
+status: experimental
+description: Detects Microsoft Office applications launching command interpreters or script hosts.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\WINWORD.EXE'
+            - '\EXCEL.EXE'
+            - '\POWERPNT.EXE'
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+            - '\mshta.exe'
+    condition: selection
+falsepositives:
+    - Macros, add-ins, and automation can create legitimate child processes. Investigate document origin and command line.
+level: high

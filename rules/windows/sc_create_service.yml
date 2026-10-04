@@ -1,0 +1,19 @@
+title: Service Creation or Configuration via Sc.exe
+id: 3f78a741-5b4e-4e5e-a8e5-6082f65da26e
+status: experimental
+description: Detects sc.exe commands used to create or reconfigure Windows services.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\sc.exe'
+        CommandLine|contains:
+            - ' create '
+            - ' config '
+    condition: selection
+falsepositives:
+    - Legitimate installers and administrators create services. Examine binary path, service account, and parent process.
+level: medium

@@ -1,0 +1,20 @@
+title: Windows Backup Catalog or Backup Deletion
+id: 71ef5537-5189-4fc9-8451-14ea25bf3094
+status: experimental
+description: Detects wbadmin commands that delete backup catalogs or backups.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wbadmin.exe'
+        CommandLine|contains:
+            - 'delete catalog'
+            - 'delete systemstatebackup'
+            - 'delete backup'
+    condition: selection
+falsepositives:
+    - Approved backup lifecycle operations may match. Confirm scope and authorization before escalation.
+level: high

@@ -1,0 +1,20 @@
+title: Rclone Executed with Sync or Copy Operations
+id: c5d932b6-9c15-4b16-8063-6fd87885f0a9
+status: experimental
+description: Detects rclone process execution with common data-transfer subcommands.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rclone.exe'
+        CommandLine|contains:
+            - ' copy '
+            - ' sync '
+            - ' move '
+    condition: selection
+falsepositives:
+    - Rclone is used for legitimate backup and migration. Verify binary provenance, remote configuration, destination, and volume.
+level: medium

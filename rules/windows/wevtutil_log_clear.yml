@@ -1,0 +1,19 @@
+title: Windows Event Log Clear via Wevtutil
+id: 561b27fd-02c6-40a9-8e08-731e744c8151
+status: experimental
+description: Detects wevtutil commands that clear event logs.
+author: Sigma GitHub Lab
+date: 2026-10-04
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wevtutil.exe'
+        CommandLine|contains:
+            - ' cl '
+            - ' clear-log '
+    condition: selection
+falsepositives:
+    - Log maintenance can be legitimate but is sensitive. Correlate with event-log clear events and change records.
+level: high
