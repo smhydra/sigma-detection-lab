@@ -1,0 +1,22 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+.pytest_cache/
+
+# Converted build output
+build/
+dist/
+
+# Legacy starter artifacts
+sigma-windows-github-starter/
+sigma-windows-github-starter.zip
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp

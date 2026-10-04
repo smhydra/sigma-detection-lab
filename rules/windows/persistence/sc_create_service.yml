@@ -1,0 +1,25 @@
+title: Creation of New Windows Service via SC.exe
+id: f5021819-410a-4819-b219-9014ef980556
+status: experimental
+description: Detects sc.exe creating new system service definitions for persistence or privilege escalation (sc create).
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1543/003/
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1543.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\sc.exe'
+        CommandLine|contains:
+            - ' create '
+    condition: selection
+falsepositives:
+    - Legitimate software installers and administrative service deployments.
+level: medium

@@ -1,0 +1,35 @@
+title: Microsoft Office Application Spawning Command Interpreter
+id: 5b4e7208-8e6b-4e12-a128-44490018f6c3
+status: experimental
+description: Detects Microsoft Word, Excel, PowerPoint, or Access spawning command shell interpreters (cmd.exe, powershell.exe, wscript.exe), typical of malicious document macro execution.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1566/001/
+    - https://attack.mitre.org/techniques/T1059/003/
+tags:
+    - attack.initial_access
+    - attack.t1566.001
+    - attack.execution
+    - attack.t1059.003
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentImage|endswith:
+            - '\winword.exe'
+            - '\excel.exe'
+            - '\powerpnt.exe'
+            - '\msaccess.exe'
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\pwsh.exe'
+            - '\wscript.exe'
+            - '\cscript.exe'
+    condition: selection
+falsepositives:
+    - Custom business document macros that legitimately invoke internal batch or PowerShell utility scripts.
+level: high

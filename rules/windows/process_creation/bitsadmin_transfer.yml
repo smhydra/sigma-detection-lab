@@ -1,0 +1,31 @@
+title: BITSAdmin Used for Remote File Transfer
+id: f1a3891b-67a3-4889-b223-9528d25f75e2
+status: experimental
+description: Detects bitsadmin.exe execution with transfer, addfile, or download parameters used to retrieve payloads via Background Intelligent Transfer Service.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1197/
+    - https://attack.mitre.org/techniques/T1105/
+    - https://lolbas-project.github.io/lolbas/Binaries/Bitsadmin/
+tags:
+    - attack.defense_evasion
+    - attack.t1197
+    - attack.command_and_control
+    - attack.t1105
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\bitsadmin.exe'
+        CommandLine|contains:
+            - '/transfer'
+            - '/create'
+            - '/addfile'
+            - '/download'
+    condition: selection
+falsepositives:
+    - Enterprise software patch deployment and Windows Update agent operations.
+level: medium

@@ -1,0 +1,26 @@
+title: Persistence Registry Run Key Modification
+id: a9621040-410a-4819-b219-ef9805562d98
+status: experimental
+description: Detects reg.exe adding or modifying Windows Registry Run keys (HKCU\Software\Microsoft\Windows\CurrentVersion\Run or HKLM equivalent) for persistent execution across reboot.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1547/001/
+tags:
+    - attack.persistence
+    - attack.t1547.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\reg.exe'
+        CommandLine|contains:
+            - ' add '
+        CommandLine|contains|all:
+            - '\CurrentVersion\Run'
+    condition: selection
+falsepositives:
+    - Legitimate software installers configuring background startup tasks.
+level: medium

@@ -1,0 +1,28 @@
+title: Rundll32 Execution from User Writable Directory
+id: 6e982181-420a-412f-9014-ef9805562181
+status: experimental
+description: Detects Rundll32.exe executing dynamic link libraries (DLLs) hosted inside user-writable directories (AppData, Temp, Public, Downloads).
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1218/011/
+    - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+tags:
+    - attack.defense_evasion
+    - attack.t1218.011
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\rundll32.exe'
+        CommandLine|contains:
+            - '\AppData\Local\Temp\'
+            - '\AppData\Roaming\'
+            - '\Users\Public\'
+            - '\Downloads\'
+    condition: selection
+falsepositives:
+    - Third-party desktop application update installers running un-extracted temp DLLs.
+level: medium

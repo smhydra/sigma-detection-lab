@@ -1,0 +1,29 @@
+title: Windows Script Host Execution from Downloads Folder
+id: a1850123-ef88-410a-b219-9014ef980556
+status: experimental
+description: Detects WScript or CScript executing VBScript or JScript directly from user Downloads directory, indicative of malicious email attachment downloads.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1218/
+    - https://attack.mitre.org/techniques/T1059/005/
+tags:
+    - attack.execution
+    - attack.t1059.005
+    - attack.defense_evasion
+    - attack.t1218
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith:
+            - '\wscript.exe'
+            - '\cscript.exe'
+        CommandLine|contains:
+            - '\Downloads\'
+    condition: selection
+falsepositives:
+    - Users manually running administrative scripts downloaded from internal repositories.
+level: medium

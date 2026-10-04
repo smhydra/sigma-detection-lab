@@ -1,0 +1,28 @@
+title: Mshta Execution of Remote HTML Application (HTA) Script
+id: b92591f1-3a05-4c07-bdf2-50d4816c1a84
+status: experimental
+description: Detects Mshta.exe executing remote inline scriptlets or downloading HTA files over HTTP/HTTPS/FTP.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1218/005/
+    - https://lolbas-project.github.io/lolbas/Binaries/Mshta/
+tags:
+    - attack.defense_evasion
+    - attack.t1218.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\mshta.exe'
+        CommandLine|contains:
+            - 'http://'
+            - 'https://'
+            - 'javascript:'
+            - 'vbscript:'
+    condition: selection
+falsepositives:
+    - Legacy intranet web applications relying on MSHTA. Validate URI destination and parent process.
+level: high

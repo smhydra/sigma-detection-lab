@@ -1,0 +1,27 @@
+title: Regsvr32 Executing Remote Scriptlet (Squiblydoo)
+id: d4512903-87a1-4321-a189-9b1c726a421e
+status: experimental
+description: Detects Regsvr32 invoked with scrobj.dll and remote network URLs (/i:http), bypassing AppLocker/WDAC (Squiblydoo attack pattern).
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1218/010/
+    - https://lolbas-project.github.io/lolbas/Binaries/Regsvr32/
+tags:
+    - attack.defense_evasion
+    - attack.t1218.010
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\regsvr32.exe'
+        CommandLine|contains:
+            - 'scrobj.dll'
+            - '/i:http'
+            - '/i:https'
+    condition: selection
+falsepositives:
+    - Rarely used in legitimate modern deployments. Inspect scrobj DLL source and network address.
+level: high

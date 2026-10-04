@@ -1,0 +1,25 @@
+title: Volume Shadow Copy Deletion via Vssadmin
+id: c4821040-410a-4819-b219-9014ef980556
+status: experimental
+description: Detects execution of vssadmin.exe deleting volume shadow copies (delete shadows /all /quiet), a pre-cursor step heavily used by ransomware strains to prevent recovery.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1490/
+tags:
+    - attack.impact
+    - attack.t1490
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\vssadmin.exe'
+        CommandLine|contains:
+            - 'delete'
+            - 'shadows'
+    condition: selection
+falsepositives:
+    - Dedicated disk backup management solutions performing scheduled maintenance.
+level: high

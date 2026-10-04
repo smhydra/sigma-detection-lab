@@ -1,0 +1,33 @@
+title: PowerShell Encoded Command Execution
+id: 0d68bd40-fb24-4aca-abf0-2b7584be5531
+status: experimental
+description: Detects PowerShell launched with base64 encoded command arguments (-e, -enc, -encodedcommand), often used by adversaries to obfuscate script execution and bypass command-line inspection.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1059/001/
+    - https://attack.mitre.org/techniques/T1027/
+    - https://lolbas-project.github.io/lolbas/Binaries/Powershell/
+tags:
+    - attack.execution
+    - attack.t1059.001
+    - attack.defense_evasion
+    - attack.t1027
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\powershell.exe'
+        CommandLine|contains:
+            - ' -enc '
+            - ' -encodedcommand '
+            - ' -e '
+            - ' -enc'
+            - ' -encodedcommand'
+    condition: selection
+falsepositives:
+    - Administrative scripts and deployment tools (e.g., SCCM, Chocolatey, IT management utilities) using encoded payloads.
+    - Validate parent process lineage, signing status, and decode payload for analysis.
+level: high

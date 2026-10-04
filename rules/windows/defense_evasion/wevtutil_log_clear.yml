@@ -1,0 +1,25 @@
+title: Windows Event Log Clearing via Wevtutil
+id: b104819a-410a-4819-b219-9014ef980556
+status: experimental
+description: Detects execution of wevtutil.exe clearing Windows event logs (cl parameter), an anti-forensic tactic used to remove operational audit trails.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1070/001/
+tags:
+    - attack.defense_evasion
+    - attack.t1070.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wevtutil.exe'
+        CommandLine|contains:
+            - ' cl '
+            - ' clear '
+    condition: selection
+falsepositives:
+    - Log maintenance scripts during system commissioning or imaging.
+level: high

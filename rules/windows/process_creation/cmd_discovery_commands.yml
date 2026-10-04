@@ -1,0 +1,30 @@
+title: Command Prompt Execution of System Discovery Commands
+id: 9a3e2140-771d-4509-9014-ef9805562d98
+status: experimental
+description: Detects command-line discovery tools executed via cmd.exe for host network, domain, and account reconnaissance (systeminfo, ipconfig /all, net view, tasklist).
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1082/
+    - https://attack.mitre.org/techniques/T1083/
+tags:
+    - attack.discovery
+    - attack.t1082
+    - attack.t1083
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains:
+            - 'systeminfo'
+            - 'ipconfig /all'
+            - 'net view'
+            - 'nltest /dclist'
+            - 'tasklist /v'
+    condition: selection
+falsepositives:
+    - IT helpdesk support troubleshooting scripts.
+level: medium

@@ -1,0 +1,26 @@
+title: Windows Backup Catalog Deletion via Wbadmin
+id: e8910481-410a-4819-b219-9014ef980556
+status: experimental
+description: Detects execution of wbadmin.exe deleting backup catalog or system state backups (delete catalog -quiet / delete systemstatebackup), inhibiting recovery.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1490/
+tags:
+    - attack.impact
+    - attack.t1490
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\wbadmin.exe'
+        CommandLine|contains:
+            - 'delete'
+            - 'catalog'
+            - 'systemstatebackup'
+    condition: selection
+falsepositives:
+    - System administrators resetting corrupted backup catalogs.
+level: high

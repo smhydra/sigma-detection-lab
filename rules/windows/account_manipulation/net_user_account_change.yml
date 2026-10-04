@@ -1,0 +1,36 @@
+title: Local User Account Creation or Modification via Net.exe
+id: 3910481a-410a-4819-b219-9014ef980556
+status: experimental
+description: Detects net.exe or net1.exe adding local user accounts (net user /add) or adding users to local administrators group (net localgroup administrators /add).
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1136/001/
+    - https://attack.mitre.org/techniques/T1087/001/
+tags:
+    - attack.persistence
+    - attack.t1136.001
+    - attack.discovery
+    - attack.t1087.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        Image|endswith:
+            - '\net.exe'
+            - '\net1.exe'
+    selection_action:
+        CommandLine|contains:
+            - ' user '
+            - ' localgroup '
+    selection_flag:
+        CommandLine|contains:
+            - '/add'
+            - '/delete'
+            - '/active:no'
+    condition: selection_image and selection_action and selection_flag
+falsepositives:
+    - IT administration accounts being provisioned via local provisioning scripts.
+level: medium

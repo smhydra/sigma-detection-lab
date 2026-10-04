@@ -1,0 +1,28 @@
+title: Whoami Privilege Discovery Execution
+id: e4b99818-87ef-4819-a1b7-952d7e0081d1
+status: experimental
+description: Detects execution of whoami.exe with /priv, /all, or /groups parameters indicating privilege and account token discovery post-exploitation.
+author: Sigma Detection Lab
+date: 2026-10-04
+modified: 2026-10-04
+references:
+    - https://attack.mitre.org/techniques/T1033/
+tags:
+    - attack.discovery
+    - attack.t1033
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\whoami.exe'
+        CommandLine|contains:
+            - '/priv'
+            - '/all'
+            - '/groups'
+            - '-priv'
+            - '-all'
+    condition: selection
+falsepositives:
+    - Administrator privilege auditing scripts.
+level: low
