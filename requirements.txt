@@ -1,5 +1,5 @@
+
 pySigma>=0.11.0
-pySigma-cli>=1.0.0
 pySigma-backend-splunk
 pySigma-backend-elasticsearch
 pySigma-backend-kusto
